@@ -13,13 +13,8 @@ ss.server.on('reconnect', function(){
 });
 
 ss.server.on('ready', function(){
-
-  // Wait for the DOM to finish loading
   jQuery(function(){
-    
-    //// Load app
-    //require('/app');
-
+    require('/login');
   });
 
 });

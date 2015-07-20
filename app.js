@@ -1,11 +1,19 @@
 var http = require('http'),
-    ss = require('socketstream');
+    ss = require('socketstream'),
+    querystring = require('querystring');
 
-// Define a single-page client called 'main'
+// Define a single-page client called 'login'
 ss.client.define('login', {
   view: 'login.html',
   css:  ['libs/reset.css', 'libs/login.css', 'libs/bootstrap.min.css', 'libs/bootstrap-theme.min.css'],
   code: ['libs/jquery.min.js','libs/bootstrap.min.js', 'login'],
+  tmpl: '*'
+});
+// Define a single-page client called 'login'
+ss.client.define('register', {
+  view: 'register.html',
+  css:  ['libs/reset.css', 'libs/login.css', 'libs/bootstrap.min.css', 'libs/bootstrap-theme.min.css'],
+  code: ['libs/jquery.min.js','libs/bootstrap.min.js', 'register'],
   tmpl: '*'
 });
 
@@ -20,6 +28,31 @@ ss.client.define('main', {
 // Serve this client on the root URL
 ss.http.route('/login', function(req, res){
   res.serveClient('login');
+});
+
+// authenticate user
+ss.http.route('/auth', function(req, res){
+
+  var fdata = '';
+  req.on('data', function(c) {
+    fdata += c.toString();
+  });
+
+  req.on('end', function() {
+    var d = querystring.parse(fdata);
+
+    //TODO: Authenticate user... via mongo
+
+    req.session.userId = d.email;
+    req.session.save(function(err){
+      res.serve('main');
+    });
+  });
+});
+
+// Serve this client on the root URL
+ss.http.route('/register', function(req, res){
+  res.serveClient('register');
 });
 
 // Serve this client on the root URL

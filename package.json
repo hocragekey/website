@@ -14,7 +14,8 @@
     "grunt-contrib-copy": "^0.8.0",
     "mongodb": "2.0.36",
     "socketstream": "0.3.x",
-    "ss-hogan": "0.1.x"
+    "ss-hogan": "0.1.x",
+    "querystring": "0.2.0 "
   },
   "scripts": {
     "start": "node app.js"

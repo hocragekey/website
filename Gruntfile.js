@@ -23,6 +23,7 @@ module.exports = function(grunt) {
             flatten: true,
             src : [
                     'bower_components/jquery/dist/jquery.min.js',
+                    'bower_components/jquery/dist/jquery.min.map',
                     'bower_components/bootstrap/dist/js/bootstrap.min.js'
                   ],
             dest : 'client/code/libs/'
