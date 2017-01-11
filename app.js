@@ -41,12 +41,23 @@ ss.http.route('/auth', function(req, res){
   req.on('end', function() {
     var d = querystring.parse(fdata);
 
-    //TODO: Authenticate user... via mongo
+    Data.findUser(d.email, function(err, result) {
+      if(result.length === 0) {
+        return res.end('Couldn\'t find a user with that email address');
+      }
 
-    req.session.userId = d.email;
-    req.session.save(function(err){
-      res.serve('main');
+      var u = result[0];
+
+      if(u.pw !== d.pw) {
+        return res.end('Wrong password.');
+      }
+
+      req.session.userId = d.email;
+      req.session.save(function(err){
+        res.serve('main');
+      });
     });
+
   });
 });
 
@@ -76,5 +87,7 @@ server.listen(3000);
 
 // Start SocketStream
 ss.start(server);
+
+Data = require('./server/data/Data');
 
 //TODO: Build scheduler

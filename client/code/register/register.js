@@ -18,10 +18,12 @@ $('#register').on('submit', function(event) {
   ss.rpc('user.create', {
     name: name,
     email: email,
-    pw: pw1
+pw: pw1
   }, function(err, resp) {
     if(err) {
         return errFqn(err);
     }
+
+      window.location.href = '/';
   });
 });
